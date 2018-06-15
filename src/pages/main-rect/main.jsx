@@ -6,10 +6,9 @@ import routeList from '@/route'
 import model from './model'
 import './css.scss'
 
-class commonComponents extends React.Component {
+class baseComponent extends React.Component {
   static defaultProps = {}
   render() {
-    console.log(this.props.pageRoutes)
     return (
       <Route>
         <div className={'main-body'}>
@@ -25,6 +24,6 @@ class commonComponents extends React.Component {
 }
 
 export default combineComponent({
-  c: commonComponents,
+  c: baseComponent,
   model: model
 })

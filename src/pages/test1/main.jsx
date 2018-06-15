@@ -1,6 +1,6 @@
 import React from 'react'
 import { combineComponent } from '@/utils/combiner'
-import dispatchLoader from '@/utils/dispatchLoader'
+import { testService } from "../../utils/service"
 import model from './model.js'
 import './css.scss'
 
@@ -10,27 +10,18 @@ class test1 extends React.Component {
   }
 
   getCustomerList = () => {
-    dispatchLoader(this.props.dispatch, {
-      type: 'test1/customerList',
-      url: '/api/myproj/customList',
-      method: 'POST',
-      payload: {
-        a: 1,
-        b: 2,
-        c: 3
-      }
+    testService.getTestList({
+      a: 1,
+      b: 2,
+      c: 3
     })
   }
-  componentDidMount() {
-    console.log('>> indexPage:', 'start!')
-    console.log('this.props', this.props)
-  }
+
   render() {
-    let { customerList } = this.props
-    console.log('customerList:', customerList)
+    let { customerList, comLoading } = this.props
     return(
       <div className={'user-list'}>
-        <button onClick={this.getCustomerList}>获取客户信息</button>
+        <button onClick={this.getCustomerList}>请求示例列表{comLoading ? '(loading...)' : ''}</button>
         {
           customerList.map((eachUserInfo, index) => {
             return (
@@ -54,8 +45,8 @@ export default combineComponent({
   model: model,
   modelEx: [
     {
-      namespance: 'base',
-      stateProp: 'showloading'
+      namespace: 'base',
+      stateProp: 'comLoading'
     }
   ]
 })

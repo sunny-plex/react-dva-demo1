@@ -15,7 +15,7 @@ export const combineComponent = (inputs = {}) => {
   if (inputs.model && inputs.model.state) {
     const modelName = inputs.model.namespace
     const modelMapKeys = Object.keys(inputs.model.state)
-    const modelMapKeysExt = inputs.modelMapEx || []
+    const modelMapKeysExt = inputs.modelEx || []
     modelMapStateToProps = (state) => {
       state = state || {}
       const mapList = {}
@@ -23,7 +23,7 @@ export const combineComponent = (inputs = {}) => {
         mapList[mapKey] = (state[modelName] || {})[mapKey]
       })
       modelMapKeysExt.map((mapItem) => {
-        modelMapKeysExt[mapItem.stateProp] = state[mapItem.namespace][mapItem.stateProp]
+        mapList[mapItem.stateProp] = state[mapItem.namespace][mapItem.stateProp]
       })
       return mapList
     }

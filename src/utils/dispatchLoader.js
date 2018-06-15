@@ -1,18 +1,32 @@
-import { memoryStorage } from './storageUtil'
+/* disptchLoader module */
+import fetch from 'dva/fetch'
+
+const _loaderState = {}
+
+export const loaderState = () => {
+  return {
+    set: (key, value) => {
+      return _loaderState[key] = value
+    },
+    get: (key, value) => {
+      return _loaderState[key]
+    }
+  }
+}
 
 const addRequestQueue = (actionType) => {
-  const requestQueue = memoryStorage.get('requestQueue') || []
+  const requestQueue = _loaderState['requestQueue'] || []
   requestQueue.push(actionType)
-  memoryStorage.set('requestQueue', requestQueue)
+  _loaderState['requestQueue'] = requestQueue
 }
 
 const removeRequestQueue = (actionType) => {
-  const requestQueue = memoryStorage.get('requestQueue') || []
-  memoryStorage.set('requestQueue', requestQueue.filter((queueItem) => {return queueItem !== actionType}))
+  const requestQueue = _loaderState['requestQueue'] || []
+  _loaderState['requestQueue'] =  requestQueue.filter((queueItem) => {return queueItem !== actionType})
 }
 
 const dispatchRequestState = (dispatch) => {
-  const requestQueue = memoryStorage.get('requestQueue') || []
+  const requestQueue = _loaderState['requestQueue'] || []
   if (requestQueue.length) {
     dispatch({
       type: 'base/comLoading',
@@ -41,7 +55,10 @@ const mapObjectToQueryString = (objectBody) => {
   return queryString
 }
 
-export default (dispatch = () => {}, action = {}) => {
+export default (action = {}) => {
+  const { app } = _loaderState
+  const { _store } = app
+  const { dispatch } = _store || ((action) => { console.error('dispatch not defined when execute action:', action); })
   if (!action.type) {
     console.error('dispatch canceled, because of missing action.type!')
     return {}
@@ -49,7 +66,7 @@ export default (dispatch = () => {}, action = {}) => {
   if (!action.url) {
     dispatch(action)
   } else {
-    const headers = Object.assign(action.headers || {}, memoryStorage.get('requestHeaders') || {})
+    const headers = Object.assign(action.headers || {}, _loaderState['requestHeaders'] || {})
     addRequestQueue(action.type)
     dispatchRequestState(dispatch)
     fetch(
