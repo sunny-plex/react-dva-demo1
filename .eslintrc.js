@@ -17,6 +17,7 @@ module.exports = {
     "react"
   ],
   "rules": {
+    "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,
     "indent": [
       "error",

@@ -9,7 +9,6 @@ import './css.scss'
 class baseComponent extends React.Component {
   static defaultProps = {}
   render() {
-    console.log('home:', this.props);
     return (
       <Route>
         <div className={'main-body'}>

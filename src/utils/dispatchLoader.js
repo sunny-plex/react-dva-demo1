@@ -8,7 +8,7 @@ export const loaderState = () => {
     set: (key, value) => {
       return _loaderState[key] = value
     },
-    get: (key, value) => {
+    get: (key) => {
       return _loaderState[key]
     }
   }
@@ -58,7 +58,7 @@ const mapObjectToQueryString = (objectBody) => {
 export default (action = {}) => {
   const { app } = _loaderState
   const { _store } = app
-  const { dispatch } = _store || ((action) => { console.error('dispatch not defined when execute action:', action); })
+  const { dispatch } = _store || ((action) => { console.error('dispatch not defined when execute action:', action) })
   if (!action.type) {
     console.error('dispatch canceled, because of missing action.type!')
     return {}
