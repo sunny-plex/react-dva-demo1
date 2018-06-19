@@ -9,6 +9,7 @@ import './css.scss'
 class baseComponent extends React.Component {
   static defaultProps = {}
   render() {
+    console.log('home:', this.props);
     return (
       <Route>
         <div className={'main-body'}>
@@ -17,6 +18,7 @@ class baseComponent extends React.Component {
               return (<Route path={route} component={routeList[route]} key={route} />)
             })
           }
+          <Route path={'(/)'} component={routeList['/home']} />
         </div>
       </Route>
     )

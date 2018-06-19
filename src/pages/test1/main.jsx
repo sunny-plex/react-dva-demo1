@@ -1,6 +1,6 @@
 import React from 'react'
 import { combineComponent } from '@/utils/combiner'
-import { testService } from "../../utils/service"
+import { testService } from "@/utils/service"
 import model from './model.js'
 import './css.scss'
 
