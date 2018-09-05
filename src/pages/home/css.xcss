@@ -1,0 +1,20 @@
+/* page styles */
+.page-under-construct {
+  height: 100vh;
+  display: flex;
+  .under-construct-box {
+    width: 100%;
+    align-self: center;
+    text-align: center;
+    margin-top: -10rem;
+  }
+  .anticon-tool {
+    font-size: 10rem;
+    color: #aaa;
+    margin-bottom: 2rem;
+  }
+  .under-construct-notice {
+    font-size: 1rem;
+    color: #666;
+  }
+}

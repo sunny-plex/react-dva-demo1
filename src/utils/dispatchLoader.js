@@ -1,7 +1,14 @@
-/* disptchLoader module */
-import fetch from 'dva/fetch'
+// import fetch from 'dva/fetch'
 
-const _loaderState = {}
+const _loaderState = {
+  requestHeaders: {
+    ['Content-Type']: 'application/json'
+  }
+}
+const COM_LOAD_PROP = {
+  type: 'BASE/comLoading',
+  stateProp : 'comLoading'
+}
 
 export const loaderState = () => {
   return {
@@ -29,14 +36,14 @@ const dispatchRequestState = (dispatch) => {
   const requestQueue = _loaderState['requestQueue'] || []
   if (requestQueue.length) {
     dispatch({
-      type: 'base/comLoading',
-      stateProp: 'comLoading',
+      type: COM_LOAD_PROP.type,
+      stateProp: COM_LOAD_PROP.stateProp,
       payload: true
     })
   } else {
     dispatch({
-      type: 'base/comLoading',
-      stateProp: 'comLoading',
+      type: COM_LOAD_PROP.type,
+      stateProp: COM_LOAD_PROP.stateProp,
       payload: false
     })
   }
@@ -67,18 +74,23 @@ export default (action = {}) => {
     dispatch(action)
   } else {
     const headers = Object.assign(action.headers || {}, _loaderState['requestHeaders'] || {})
-    addRequestQueue(action.type)
-    dispatchRequestState(dispatch)
+    action.method = (action.method || '').toUpperCase()
+    if (!action.backgroundLoad) {
+      addRequestQueue(action.type)
+      dispatchRequestState(dispatch)
+    }
     fetch(
-      (action.method || '').toUpperCase() !== 'POST' ? action.url + mapObjectToQueryString(action.payload) : action.url,
+      action.method !== 'POST' ? action.url + mapObjectToQueryString(action.payload) : action.url,
       {
         method: action.method,
         headers: headers,
         body: (action.method || '').toUpperCase() !== 'POST' ? undefined : JSON.stringify(action.payload)
       }
     ).then((response) => {
-      removeRequestQueue(action.type)
-      dispatchRequestState(dispatch)
+      if (!action.backgroundLoad) {
+        removeRequestQueue(action.type)
+        dispatchRequestState(dispatch)
+      }
       const emitResponse = (payload) => {
         if (response.ok) {
           action.payload = payload
@@ -108,8 +120,10 @@ export default (action = {}) => {
         }
       )
     }).catch((error) => {
-      removeRequestQueue(action.type)
-      dispatchRequestState(dispatch)
+      if (!action.backgroundLoad) {
+        removeRequestQueue(action.type)
+        dispatchRequestState(dispatch)
+      }
       action.payload = {
         failed: 1,
         fetchFailed: 1,

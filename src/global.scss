@@ -1,6 +1,99 @@
-body .main-rect {
-  background-color: #fff;
-  .hello {
-      background-color: #eee;
+/* global style */
+
+/* theme style fix */
+body #main {
+  width: 100%;
+  // max-width: 600px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #fafafa;
+  position: relative;
+  .base {
+    width: 100%;
+    min-height: 100vh;
+    display: block;
+    .common {
+      height: 0;
+      overflow: hidden;
+    }
+  }
+  // 网络通讯loading状态效果
+  .com-loading-rect {
+    max-width: 600px;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 2s;
+    background-color: rgba(255, 255, 255, 0.5);
+    i {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      //color: rgba(10, 150, 255, 1);
+      animation: colorful 3s infinite;
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-left: 2rem;
+      &:before {
+        zoom: 1.5;
+        margin-left: -3.75rem;
+        margin-top: -0.1rem;
+        //color: rgba(10, 150, 255, 0.8);
+        position: absolute;
+        text-shadow: none;
+      }
+    }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0 }
+    50% { opacity: 0 }
+    100% { opacity: 1 }
+  }
+  @keyframes colorful {
+    0% { color: #ddd; }
+    50% { color: #29f; }
+    75% { color: #0c3; }
+    100% { color: #ddd; }
+  }
+  // 顶部breadCrumb和按钮
+  .header-rect {
+    width: 100%;
+    max-width: 600px;
+    top: 0;
+    margin: 0 auto;
+    border-bottom: #f1f1f1 1px solid;
+    padding: 0 0.75rem;
+    background-color: #fff;
+    position: fixed;
+    z-index: 110;
+    .ant-breadcrumb {
+      line-height: 2.75rem;
+      font-size: 13px;
+      display: inline-block;
+      & a {
+        color: #555;
+        text-shadow: 1px 1px 1px #fff;
+      }
+    }
+    .anticon {
+      font-size: 14px;
+    } + span {
+      margin-left: 0.5rem;
+    }
+    .button-group {
+      display: inline-block;
+      line-height: 2.75rem;
+      float: right;
+      button + button {
+        margin-left: 8px;
+      }
+    }
+    & + div {
+      margin-top: 3.25rem;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { superReducer } from '@/utils/reducerUtil'
 
 export default {
-  namespace: 'DEMO_HOME',
+  namespace: 'PARENT.CHILD',
   state: {
     param: {}
   },

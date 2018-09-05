@@ -1,0 +1,43 @@
+/* page styles */
+.draggable-list {
+  width: 100%;
+  position: relative;
+  padding-top: 5px;
+  .draggable-item {
+    width: 92%;
+    margin: 0 4%;
+    padding: 12px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background-color: #fff;
+    box-shadow: 0 0 1px #ccc;
+    transition: margin-top 400ms ease-in-out;
+    position: absolute;
+    .item-content {
+      width: 100%;
+    }
+    .item-drag-handle {
+      font-size: 20px;
+      color: #aaa;
+      user-select: none;
+      .anticon-retweet {
+        user-select: none;
+        transform: rotate(90deg);
+      }
+    }
+  }
+  .brace-dot {
+    height: 1px;
+    color: rgba(0, 0, 0, 0);
+    font-size: 12px;
+    line-height: 1px;
+  }
+  .roll-btn {
+    width: 92%;
+    margin: 0 4%;
+    & + .draggable-content {
+      margin: 10px 0;
+    }
+  }
+}

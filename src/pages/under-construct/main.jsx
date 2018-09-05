@@ -9,7 +9,7 @@ import CONSTANT from '@/utils/constant'
 import model from './model.js'
 import './css.xcss'
 
-class HOME extends React.Component {
+class UnderConstruct extends React.Component {
   static defaultProps = {}
 
   componentDidMount() {
@@ -36,6 +36,6 @@ class HOME extends React.Component {
 }
 
 export default combineComponent({
-  c: HOME,
+  c: UnderConstruct,
   model: model
 })

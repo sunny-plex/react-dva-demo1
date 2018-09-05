@@ -38,6 +38,7 @@ module.exports = {
     globals: {
       "process": true
     },
-    "no-console": "off"
+    "no-console": "off",
+    "no-useless-escape": "off"
   }
 };

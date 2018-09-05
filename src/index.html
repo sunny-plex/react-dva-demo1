@@ -15,14 +15,15 @@
     <meta name="full-screen" content="yes" />
     <meta name="x5-fullscreen" content="true" />
     <meta name="browsermode" content="application" />
+    <base href="\" />
     <% for (var css in htmlWebpackPlugin.files.css) { %>
     <link href="/<%=htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
     <% } %>
 </head>
 <body>
-  <div class="main-rect" id="main-rect"></div>
+  <div id="main"></div>
   <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-  <script type="text/javascript" src="/<%=htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+  <script type="text/javascript" src="<%=htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
   <% } %>
 </body>
 </html>

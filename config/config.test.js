@@ -8,7 +8,7 @@ module.exports = (buildConfig) => {
   return {
     entry: {
       index: [
-        'babel-polyfill',
+        // 'babel-polyfill',
         path.resolve(buildConfig.env.appDir + '/src', 'index.jsx')
       ]
     },
@@ -29,19 +29,29 @@ module.exports = (buildConfig) => {
         use: [{
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'react', 'stage-0'],
+            presets: ['env', 'stage-0', 'react'],
+            plugins: ['transform-decorators-legacy'],
             compact: false
           }
         }]
       }, {
-        test: /\.(scss|less|css)$/,
+        test: /\.(xcss|scss|less|css)$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'postcss-loader', 'less-loader']
         })
       }, {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-        use: 'url-loader',
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 16384,
+              name: 'res/[hash].[ext]',
+              publicPath: '/'
+            }
+          }
+        ]
       }]
     },
     plugins: [
@@ -68,9 +78,10 @@ module.exports = (buildConfig) => {
       new HtmlWebpackPlugin({
         template: `${buildConfig.env.appDir}/src/index.html`,
         filename: 'index.html',
+        favicon: `${buildConfig.env.appDir}/src/favicon.ico`,
         inject: false,
         hash: false,
-        title: 'My Application [Test]'
+        title: '🌏 loading...'
       })
     ]
   }

@@ -56,16 +56,21 @@ const mapFileSync = (dirPath, option) => {
   return fileList;
 }
 
-const genRouteListFile = (routeList) => {
-  let fileContent = '';
-  routeList.map((route) => {
-    fileContent += `import ${route.componentName} from '${route.importPath}'\r\n`;
+const genRouteListFile = (routeList, isDev = false) => {
+  const importList = () => routeList.map((route) => {
+    return `import ${route.componentName} from '${route.importPath}'`;
   });
-  fileContent += '\r\nconst pageRoutes = {}\r\n';
-  routeList.map((route) => {
-    fileContent += `pageRoutes['${route.routePath}'] = ${route.componentName}\r\n`;
+  const routeDict = () => routeList.map((route) => {
+    return `pageRoutes['${route.routePath}'] = ${route.componentName}`;
   });
-  fileContent += '\r\nexport default pageRoutes\r\n';
+  const acceptHot = (isDev) => isDev ? `if ((process.env).NODE_ENV === 'development' && module.hot) { module.hot.accept() }\r\n\r\n` : '';
+
+  const fileContent =
+    `${importList().join('\r\n')}\r\n\r\n` +
+    `const pageRoutes = {}\r\n` +
+    `${routeDict().join('\r\n')}\r\n\r\n` +
+    `${acceptHot(isDev)}` +
+    `export default pageRoutes\r\n`
   return fs.writeFileSync(path.join(configVar.env.appDir, 'src', 'route.js'), fileContent);
 }
 
@@ -83,7 +88,7 @@ const genRouteListFile = (routeList) => {
         console.log(`${route.importPath} => ${route.routePath}`);
         routeList.push(route);
       });
-      genRouteListFile(routeList);
+      genRouteListFile(routeList, argKey === 'dev');
       cmdArgFunctions[argKey]();
     }
   })
